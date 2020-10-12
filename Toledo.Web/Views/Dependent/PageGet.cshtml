@@ -1,0 +1,82 @@
+﻿@model Toledo.Aplication.Model.GetDependentResponse
+@{ ViewBag.Title = "Incluir Dependente"; }
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (@Html.BeginForm("Filter", "Employee", FormMethod.Post))
+        {<div>
+                <div class="modal-header">
+                    <h4 class="modal-title">Pesquisar Dependente</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+                        @Html.LabelFor(m => m.Id, "Id do dependente:")
+                        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o id do dependente" } })
+                        @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.IdEmployee, "Id do Funcionário:")
+                        @Html.EditorFor(model => model.IdEmployee, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o id do funcionário" } })
+                        @Html.ValidationMessageFor(model => model.IdEmployee, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Name, "Nome:")
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o nome" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Document, "Documento:")
+                        @Html.EditorFor(model => model.Document, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o documento" } })
+                        @Html.ValidationMessageFor(model => model.Document, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.DateBirth, "Data de Nascimento:")
+                        @Html.EditorFor(model => model.DateBirth, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o nome" } })
+                        @Html.ValidationMessageFor(model => model.DateBirth, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Gender, "Selecione o gênero:")
+                        @Html.DropDownListFor(m => m.Gender, new SelectList(new List<Object>{
+                        new {value = 1, text = "Masculino"},
+                        new {value = 2, text = "Feminino"}
+                        }, "value", "text", 1), htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Voltar</button>
+                </div>
+                <br />
+            </div>}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script type="text/javascript">
+    $("#Id").blur(function ()
+    {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Get")',
+            data: { id: $(this).val() },
+            success: function (resultado) {
+                if (resultado == null) {
+                    $("Id").val();
+                    alert("Dependente não encontrado.");
+                } else {
+                    $("Id").val(resultado.id).prop("disabled", true);
+                    $("#Name").val(resultado.name).prop("disabled", true);
+                    $("#IdEmployee").val(resultado.idEmployee).prop("disabled", true);
+                    $("#Document").val(resultado.document).prop("disabled", true);
+                    $(DateBirth).val(resultado.dateBirth).prop("disabled", true);
+                    $("#Gender").select(resultado.gender).prop("disabled", true);
+                }
+            },
+            error: function (resultado) {
+                $("Id").val();
+                alert("Dependente invalido.");
+            }
+        });
+    });
+</script>

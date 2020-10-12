@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Toledo.Aplication.Model.ListEmployeeResponse>
+@{ ViewBag.Title = "Filtro de Funcionário"; }
+
+
+@using (@Html.BeginForm("Filter", "Employee", FormMethod.Post))
+{<div>
+        <div class="modal-header">
+            <h4 class="modal-title">Filtro de Funcionário</h4>
+        </div>
+        <table class="table table-hover">
+            <caption>Filtro de Funcionário</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Data de Nascimento</th>
+                    <th scope="col">Genero</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">CEP</th>
+                    <th scope="col">Ativo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Document</td>
+                        <td>@item.DateBirth.Date.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Gender.ToString()</td>
+                        <td>@item.Phone</td>
+                        <td>@item.ZipCode</td>
+                        <td>@item.Active.ToString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success" id="voltar">Voltar</button>
+        </div>
+    </div>}

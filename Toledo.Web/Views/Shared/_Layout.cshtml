@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Toledo.Web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Employee" asp-action="Filter">Pesquisa</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="dropdown">
+                            <a class="nav-link text-dark" data-toggle="dropdown" role="button"
+                               aria-expanded="false">Funcionario</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="PageInsert">Cadastrar</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="PageAlter">Alterar</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="PageGet">Consultar</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="PageRemove">Exluir</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link text-dark" data-toggle="dropdown" role="button"
+                               aria-expanded="false">Dependente</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Dependent" asp-action="PageInsert">Cadastrar</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Dependent" asp-action="PageAlter">Alterar</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Dependent" asp-action="PageGet">Consultar</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Dependent" asp-action="PageRemove">Exluir</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Birthdays" asp-action="GetBirthday">Aniversariantes</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="text-center">
+        <p>Desenvolvido por: <a href="https://www.linkedin.com/in/luan-moreira-867b73133/">Luan Moreira</a></p>
+        <p>Repositorio: <a href="https://github.com/moreiraluanr">GitHub</a></p>
+        <p>Contato: <a href="https://api.whatsapp.com/send/?phone=5511975703754&text&app_absent=0">WhatsApp</a></p>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

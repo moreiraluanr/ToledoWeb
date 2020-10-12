@@ -1,0 +1,84 @@
+﻿@model Toledo.Aplication.Model.ListEmployeeRequest
+@{
+    ViewData["Title"] = "Pesquisa";
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm("ListPage", "Employee", FormMethod.Post))
+        {
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Filtrar Funcionário</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+                        @Html.LabelFor(m => m.Name, "Nome:")
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o nome" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.DateFirst, "Data de nascimento inicial:")
+                        @Html.EditorFor(model => model.DateFirst, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateFirst, "", new { @class = "text-danger", @type = "text-danger"})
+
+                        <br />
+
+                        @Html.LabelFor(m => m.DateFirst, "Data de nascimento final:")
+                        @Html.EditorFor(model => model.DateFinish, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateFinish, "", new { @class = "text-danger", @type = "text-danger" })
+
+                        <br />
+
+                        @Html.Label("Filtrar por gênero:")
+                        @Html.DropDownListFor(m => m.Gender, new SelectList(new List<Object>{
+                        new {value = 0, text = "Ambos"},
+                        new {value = 1, text = "Masculino"},
+                        new {value = 2, text = "Feminino"}
+                        }, "value", "text", 0), htmlAttributes: new { @class = "form-control" })
+
+                        <br />
+
+                        @Html.Label("Filtrar por ativo:")
+                        @Html.DropDownListFor(m => m.Active, new SelectList(new List<Object>{
+                        new {value = 0, text = "Ambos"},
+                        new {value = true, text = "Ativo"},
+                        new {value = false, text = "Inativo"}
+                        }, "value", "text", 0), htmlAttributes: new { @class = "form-control" })
+
+                        <br />
+
+                        @Html.Label("Filtrar Funcionário sem dependente:")
+                        @Html.DropDownListFor(m => m.NoHaveDependent, new SelectList(new List<Object>{
+                        new {value = 0, text = "Não"},
+                        new {value = true, text = "Sim"},
+                        }, "value", "text", 0), htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success" id="Pesquisar">Pesquisar</button>
+                    <button type="submit" class="btn btn-danger" formaction="@Url.Action("Filter", "Employee")">Cancelar</button>
+                </div>
+                <br />
+            </form>}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script type="text/javascript">
+    $("#DateFinish").blur(function () {
+        if ($("#DateFirst").val() == "") {
+            $(this).val("");
+            alert("Digite a data inicial do range.");
+        }
+        var dataInicial = new Date($("#DateFirst").val());
+        var dataFinal = new Date($(this).val());
+        if (dataInicial > dataFinal) {
+            $(this).val("");
+            alert("Data Inicial maior que Data Final.");
+        }
+    });
+</script>

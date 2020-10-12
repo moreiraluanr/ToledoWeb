@@ -1,0 +1,123 @@
+﻿@model Toledo.Aplication.Model.InsertEmployeeRequest
+@{ ViewBag.Title = "Incluir Funcionário"; }
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm("Insert", "Employee", FormMethod.Post))
+        {<div>
+                <div class="modal-header">
+                    <h4 class="modal-title">Incluir Funcionário</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+                        @Html.LabelFor(m => m.Name, "Nome:")
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o nome" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Document, "Documento:")
+                        @Html.EditorFor(model => model.Document, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o documento" } })
+                        @Html.ValidationMessageFor(model => model.Document, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.DateBirth, "Data de Nascimento:")
+                        @Html.EditorFor(model => model.DateBirth, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o nome" } })
+                        @Html.ValidationMessageFor(model => model.DateBirth, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Gender, "Selecione o gênero:")
+                        @Html.DropDownListFor(m => m.Gender, Html.GetEnumSelectList(typeof(Toledo.Domain.Enums.EGender)), htmlAttributes: new { @class = "form-control" })
+
+                        <br />
+
+                        @Html.LabelFor(m => m.Phone, "Telefone:")
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o telefone" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.ZipCode, "CEP:")
+                        @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o CEP" } })
+                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Place, "Logradouro:")
+                        @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o logradouro" } })
+                        @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.Neighborhood, "Bairro:")
+                        @Html.EditorFor(model => model.Neighborhood, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o bairro" } })
+                        @Html.ValidationMessageFor(model => model.Neighborhood, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.City, "Cidade:")
+                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite a cidade" } })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.LabelFor(m => m.State, "UF:")
+                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o UF" } })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                        <br />
+
+                        @Html.Label("Ativo:")
+                        @Html.DropDownListFor(m => m.Active, new SelectList(new List<Object>{
+                        new {value = true, text = "Sim"},
+                        new {value = false, text = "Não"},
+                        }, "value", "text", true), htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success" onclick="Incluir()">Incluir</button>
+                    <button type="submit" class="btn btn-danger" formaction="@Url.Action("Filter", "Employee")">Cancelar</button>
+                </div>
+                <br />
+            </div>}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script type="text/javascript">
+    $("#Phone").mask("(00) 00000-0000");
+    $("#ZipCode").mask("00.000-000");
+    $("#Document").mask("000.000.000-00");
+
+    $("#ZipCode").blur(function () {
+        var cep = $(this).val().replace(/\D/g, '');
+        if (cep != "") {
+            var validacep = /^[0-9]{8}$/;
+            if (validacep.test(cep)) {
+                $("#Place").val("...");
+                $("#Neighborhood").val("...");
+                $("#City").val("...");
+                $("#State").val("...");
+                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+                    if (!("erro" in dados)) {
+                        $("#Place").val(dados.logradouro).prop("readonly", true);
+                        $("#Neighborhood").val(dados.bairro).prop("readonly", true);
+                        $("#City").val(dados.localidade).prop("readonly", true);
+                        $("#State").val(dados.uf).prop("readonly", true);
+                    }
+                    else {
+                        alert("CEP não encontrado.");
+                    }
+                });
+            }
+            else {
+                $(this).val(empty);
+                alert("Formato de CEP inválido.");
+            }
+        }
+        else {
+            $(this).val(empty);
+        }
+    });
+
+    function Incluir() {
+        alert('Funcionário incluido.');
+    }
+</script>
