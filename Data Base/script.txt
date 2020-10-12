@@ -1,0 +1,30 @@
+CREATE DATABASE ToledoDB
+GO
+USE ToledoDB
+GO
+CREATE TABLE [dbo].[Employees] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [Name]         NVARCHAR (MAX) NULL,
+    [Document]     NVARCHAR (MAX) NULL,
+    [DateBirth]    DATETIME       NULL,
+    [Gender]       INT            NULL,
+    [Phone]        VARCHAR (MAX)  NULL,
+    [ZipCode]      VARCHAR (MAX)  NULL,
+    [Place]        VARCHAR (MAX)  NULL,
+    [Neighborhood] VARCHAR (MAX)  NULL,
+    [City]         VARCHAR (MAX)  NULL,
+    [State]        VARCHAR (MAX)  NULL,
+    [Active]       BIT            NULL,
+    CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+GO
+CREATE TABLE [dbo].[Dependents] (
+    [Id]         INT            IDENTITY (1, 1) NOT NULL,
+    [IdEmployee] INT            NOT NULL,
+    [Name]       NVARCHAR (MAX) NULL,
+    [Document]   NVARCHAR (MAX) NULL,
+    [DateBirth]  DATETIME       NULL,
+    [Gender]     INT            NULL,
+    CONSTRAINT [PK_Dependent] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Dependent_Employee] FOREIGN KEY ([IdEmployee]) REFERENCES [dbo].[Employees] ([Id])
+);
